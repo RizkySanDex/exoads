@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pemutar Video dengan Iklan Lengkap</title>
+    <title>Pemutar Video Lengkap + Auto Refresh</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -42,6 +42,8 @@
                 controls
                 preload="auto"
                 playsinline
+                autoplay
+                muted
                 width="1280"
                 height="720"
                 data-setup='{}'>
@@ -81,10 +83,21 @@
 
             // Error handling jika iklan gagal
             player.on('adserror', function(event) {
-                console.error('Iklan tidak tersedia atau gagal dimuat.', event);
-                player.play(); // tetap mainkan video utama
+                console.error('Iklan gagal dimuat.', event);
+                player.play();
+            });
+
+            // Pastikan video auto play (muted)
+            player.ready(function() {
+                player.muted(true);
+                player.play();
             });
         };
+
+        // Auto refresh halaman setiap 20 detik
+        setInterval(function() {
+            location.reload();
+        }, 20000);
     </script>
 
 </body>
