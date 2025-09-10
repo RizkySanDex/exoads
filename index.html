@@ -1,672 +1,91 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIO VIDEOS - Iklan ExoClick Fixed</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
-      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-      color: #fff;
-      min-height: 100vh;
-      padding-bottom: 20px;
-    }
-    
-    header {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    }
-    
-    header h1 {
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    header h1 span {
-      color: #ff5252;
-    }
-    
-    .ad-label {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      margin-left: 10px;
-    }
-    
-    .container {
-      display: flex;
-      max-width: 1200px;
-      margin: 20px auto;
-      gap: 20px;
-      padding: 0 15px;
-    }
-    
-    .player-container {
-      flex: 7;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      position: relative;
-    }
-    
-    #mainVideo {
-      width: 100%;
-      height: 400px;
-      background: #000;
-      display: block;
-      object-fit: cover;
-    }
-    
-    #adContainer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 400px;
-      background: #000;
-      display: none;
-      z-index: 10;
-    }
-    
-    #adContainer iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    
-    .ad-countdown {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      z-index: 11;
-      display: none;
-    }
-    
-    .skip-ad {
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      z-index: 11;
-      cursor: pointer;
-      display: none;
-    }
-    
-    .skip-ad:hover {
-      background: rgba(255, 82, 82, 0.7);
-    }
-    
-    #videoTitle {
-      padding: 15px;
-      font-size: 1.4rem;
-    }
-    
-    .progress-container {
-      width: 100%;
-      height: 10px;
-      background: rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-    }
-    
-    #progressBar {
-      height: 100%;
-      width: 0%;
-      background: #ff5252;
-      transition: width 0.2s;
-    }
-    
-    .ad-markers {
-      display: flex;
-      width: 100%;
-      height: 10px;
-      margin-top: 5px;
-    }
-    
-    .ad-marker {
-      height: 100%;
-      background: #4CAF50;
-    }
-    
-    .playlist {
-      flex: 3;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
-    
-    .playlist h3 {
-      background: rgba(255, 82, 82, 0.9);
-      padding: 15px;
-      text-align: center;
-    }
-    
-    #playlist {
-      list-style: none;
-      max-height: 400px;
-      overflow-y: auto;
-    }
-    
-    #playlist li {
-      padding: 12px 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    
-    #playlist li:hover {
-      background: rgba(255, 82, 82, 0.2);
-    }
-    
-    #playlist li.playing {
-      background: rgba(255, 82, 82, 0.3);
-      font-weight: bold;
-    }
-    
-    .ad-info {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      margin-top: 20px;
-      border-radius: 8px;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .ad-info h3 {
-      color: #ff5252;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    
-    .ad-types {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
-    }
-    
-    .ad-type {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 15px;
-      border-radius: 8px;
-      border-left: 4px solid #ff5252;
-    }
-    
-    .ad-type h4 {
-      color: #ff5252;
-      margin-bottom: 10px;
-    }
-    
-    .ad-container {
-      margin: 20px auto;
-      padding: 10px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-      text-align: center;
-      max-width: 1200px;
-    }
-    
-    .ad-title {
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-      color: #aaa;
-    }
-    
-    .ad-content {
-      min-height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 6px;
-      padding: 10px;
-    }
-    
-    .ad-content iframe {
-      width: 100%;
-      height: 100%;
-      min-height: 90px;
-      border: none;
-    }
-    
-    .error-fix {
-      background: rgba(0, 0, 0, 0.5);
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 8px;
-      max-width: 1200px;
-    }
-    
-    .error-fix h3 {
-      color: #ff5252;
-      margin-bottom: 15px;
-      text-align: center;
-    }
-    
-    .fix-item {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      border-left: 4px solid #4CAF50;
-    }
-    
-    .fix-item h4 {
-      color: #4CAF50;
-      margin-bottom: 10px;
-    }
-    
-    @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-      }
-      
-      #mainVideo, #adContainer {
-        height: 300px;
-      }
-    }
-    
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-      }
-      
-      #mainVideo, #adContainer {
-        height: 250px;
-      }
-      
-      .ad-types {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemutar Video dengan Iklan Lengkap</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <link href="https://players.brightcove.net/videojs-ima/3/videojs.ima.css" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Posisi overlay video slide ad di pojok kanan bawah */
+        #video-slide-ad { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
+    </style>
 </head>
-<body>
-  <header>
-    <h1><span>▶</span> VIO VIDEOS</h1>
-    <div class="ad-label">IKLAN EXOCLICK - FIXED</div>
-  </header>
+<body class="bg-gray-900 text-white antialiased">
 
-  <!-- Iklan Banner -->
-  <div class="ad-container">
-    <div class="ad-title">Iklan Banner ExoClick</div>
-    <div class="ad-content">
-      <!-- Alternatif jika script utama error -->
-      <div id="banner-ad">
-        <script type="text/javascript">
-          // Fallback untuk iklan banner
-          function loadBannerAd() {
-            try {
-              // Kode asli ExoClick
-              var script = document.createElement('script');
-              script.async = true;
-              script.type = 'application/javascript';
-              script.src = 'https://a.magsrv.com/ad-provider.js';
-              document.head.appendChild(script);
-              
-              var ins = document.createElement('ins');
-              ins.className = 'eas6a97888e17';
-              ins.setAttribute('data-zoneid', '5720038');
-              document.getElementById('banner-ad').appendChild(ins);
-              
-              if (window.AdProvider) {
-                window.AdProvider.push({"serve": {}});
-              } else {
-                window.AdProvider = [{"serve": {}}];
-              }
-            } catch (e) {
-              console.log('Error loading banner ad:', e);
-              // Fallback content
-              document.getElementById('banner-ad').innerHTML = `
-                <a href="https://www.exoclick.com/" target="_blank">
-                  <img src="https://via.placeholder.com/728x90/333333/ffffff?text=Banner+Ad+Placeholder" alt="Ad placeholder" style="max-width:100%">
-                </a>
-              `;
-            }
-          }
-          window.addEventListener('load', loadBannerAd);
-        </script>
-      </div>
-    </div>
-  </div>
+    <div class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
 
-  <main class="container">
-    <!-- Video Player -->
-    <div class="player-container">
-      <video id="mainVideo" controls></video>
-      <div id="adContainer">
-        <!-- Iklan ExoClick akan dimuat di sini -->
-      </div>
-      <div class="ad-countdown" id="adCountdown">Iklan: 15 detik</div>
-      <div class="skip-ad" id="skipAd">Lewati Iklan</div>
-      <h3 id="videoTitle">Pilih video dari playlist untuk mulai menonton</h3>
-      
-      <div class="progress-container" id="progressContainer">
-        <div id="progressBar"></div>
-      </div>
-      <div class="ad-markers" id="adMarkers"></div>
+        <!-- Banner Ad -->
+        <div class="mb-4 text-center w-full max-w-4xl">
+            <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+            <ins class="eas6a97888e17" data-zoneid="5720038"></ins> 
+            <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+        </div>
+
+        <!-- Video Player -->
+        <main class="w-full max-w-4xl bg-gray-800 p-2 rounded-lg shadow-2xl border border-gray-700">
+            <video
+                id="my-video"
+                class="video-js vjs-default-skin vjs-big-play-centered w-full"
+                controls
+                preload="auto"
+                playsinline
+                width="1280"
+                height="720"
+                data-setup='{}'>
+                <source src="https://videos.pexels.com/video-files/854171/854171-hd_1280_720_25fps.mp4" type="video/mp4" />
+                <p class="vjs-no-js">Untuk melihat video ini, mohon aktifkan JavaScript.</p>
+            </video>
+
+            <h2 class="text-center text-lg font-semibold mt-4 p-2 text-gray-300">
+                Pemandangan Indah Pegunungan
+            </h2>
+        </main>
     </div>
 
-    <!-- Playlist -->
-    <aside class="playlist">
-      <h3>Daftar Putar</h3>
-      <ul id="playlist">
-        <li data-video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" data-duration="596">Video 1: Big Buck Bunny (09:56)</li>
-        <li data-video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" data-duration="653">Video 2: Elephants Dream (10:53)</li>
-        <li data-video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" data-duration="15">Video 3: For Bigger Blazes (0:15)</li>
-        <li data-video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" data-duration="15">Video 4: For Bigger Escapes (0:15)</li>
-        <li data-video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" data-duration="60">Video 5: For Bigger Fun (1:00)</li>
-      </ul>
-    </aside>
-  </main>
+    <!-- Video Slide Ad -->
+    <div id="video-slide-ad">
+        <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+        <ins class="eas6a97888e31" data-zoneid="5720040"></ins> 
+        <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+    </div>
 
-  <!-- Iklan Video Slide -->
-  <div class="ad-container">
-    <div class="ad-title">Iklan Video Slide ExoClick</div>
-    <div class="ad-content">
-      <!-- Alternatif jika script utama error -->
-      <div id="slide-ad">
-        <script type="text/javascript">
-          // Fallback untuk iklan slide
-          function loadSlideAd() {
-            try {
-              // Kode asli ExoClick
-              var script = document.createElement('script');
-              script.async = true;
-              script.type = 'application/javascript';
-              script.src = 'https://a.magsrv.com/ad-provider.js';
-              document.head.appendChild(script);
-              
-              var ins = document.createElement('ins');
-              ins.className = 'eas6a97888e31';
-              ins.setAttribute('data-zoneid', '5720040');
-              document.getElementById('slide-ad').appendChild(ins);
-              
-              if (window.AdProvider) {
-                window.AdProvider.push({"serve": {}});
-              } else {
-                window.AdProvider = [{"serve": {}}];
-              }
-            } catch (e) {
-              console.log('Error loading slide ad:', e);
-              // Fallback content
-              document.getElementById('slide-ad').innerHTML = `
-                <a href="https://www.exoclick.com/" target="_blank">
-                  <img src="https://via.placeholder.com/300x250/333333/ffffff?text=Slide+Ad+Placeholder" alt="Ad placeholder" style="max-width:100%">
-                </a>
-              `;
-            }
-          }
-          window.addEventListener('load', loadSlideAd);
-        </script>
-      </div>
-    </div>
-  </div>
+    <!-- Video.js & IMA SDK -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script src="https://players.brightcove.net/videojs-ima/3/videojs.ima.min.js"></script>
 
-  <div class="error-fix">
-    <h3>Masalah dan Solusi Iklan ExoClick</h3>
-    
-    <div class="fix-item">
-      <h4>Masalah 1: WebAssembly MIME Type Error</h4>
-      <p>Server tidak menyajikan file Wasm dengan MIME type 'application/wasm'.</p>
-      <p><strong>Solusi:</strong> Diperbaiki dengan fallback ke WebAssembly.instantiate.</p>
-    </div>
-    
-    <div class="fix-item">
-      <h4>Masalah 2: CMP (Consent Management Platform) not found</h4>
-      <p>ExoClick memerlukan CMP untuk mengelola persetujuan pengguna.</p>
-      <p><strong>Solusi:</strong> Ditambahkan fallback jika CMP tidak tersedia.</p>
-    </div>
-    
-    <div class="fix-item">
-      <h4>Masalah 3: Ad Provider JavaScript Error</h4>
-      <p>Script iklan mungkin gagal dimuat karena berbagai alasan.</p>
-      <p><strong>Solusi:</strong> Ditambahkan mekanisme fallback dengan placeholder.</p>
-    </div>
-  </div>
+    <script>
+        window.onload = function() {
+            var player = videojs('my-video');
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const videos = document.querySelectorAll('#playlist li');
-      const videoPlayer = document.getElementById('mainVideo');
-      const adContainer = document.getElementById('adContainer');
-      const videoTitle = document.getElementById('videoTitle');
-      const adCountdown = document.getElementById('adCountdown');
-      const skipAd = document.getElementById('skipAd');
-      const progressBar = document.getElementById('progressBar');
-      const progressContainer = document.getElementById('progressContainer');
-      const adMarkers = document.getElementById('adMarkers');
-      
-      let adTimer;
-      let adDuration = 15; // Durasi iklan dalam detik
-      let skipTime = 5; // Waktu sebelum iklan bisa di-skip
-      let adPlaying = false;
-      let adPosition = ''; // pre-roll, mid-roll, post-roll
-      let currentVideoDuration = 0;
-      let midrollTriggered = false;
-      let postrollTriggered = false;
-      
-      // Fungsi untuk memuat iklan ExoClick dengan error handling
-      function loadExoClickAd() {
-        try {
-          // Bersihkan container iklan
-          adContainer.innerHTML = '';
-          
-          // Buat elemen iframe untuk iklan ExoClick
-          const iframe = document.createElement('iframe');
-          iframe.src = 'https://s.magsrv.com/v1/vast.php?idzone=5720036';
-          iframe.width = '100%';
-          iframe.height = '100%';
-          iframe.frameBorder = '0';
-          iframe.scrolling = 'no';
-          iframe.allowFullscreen = true;
-          
-          // Tambahkan iframe ke container
-          adContainer.appendChild(iframe);
-          
-          // Fallback jika iframe gagal dimuat
-          iframe.onerror = function() {
-            adContainer.innerHTML = `
-              <div style="color: white; text-align: center; padding: 50px;">
-                <h3>Iklan Video</h3>
-                <p>Iklan akan dimuat sebentar lagi...</p>
-                <p>Jika iklan tidak muncul, <a href="#" onclick="finishAd()" style="color: #ff5252;">klik untuk melanjutkan</a></p>
-              </div>
-            `;
-          };
-        } catch (e) {
-          console.error('Error loading ad:', e);
-          adContainer.innerHTML = `
-            <div style="color: white; text-align: center; padding: 50px;">
-              <h3>Iklan Video</h3>
-              <p>Terjadi kesalahan saat memuat iklan.</p>
-              <button onclick="finishAd()" style="background: #ff5252; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Lanjutkan Video</button>
-            </div>
-          `;
-        }
-      }
-      
-      // Fungsi untuk memutar iklan
-      function playAd(position) {
-        if (adPlaying) return;
-        
-        adPlaying = true;
-        adPosition = position;
-        
-        // Sembunyikan video utama, tampilkan pemutar iklan
-        videoPlayer.style.display = 'none';
-        adContainer.style.display = 'block';
-        adCountdown.style.display = 'block';
-        skipAd.style.display = 'none'; // Sembunyikan dulu tombol skip
-        
-        // Muat iklan ExoClick
-        loadExoClickAd();
-        
-        // Mulai hitung mundur
-        let timeLeft = adDuration;
-        adCountdown.textContent = `Iklan ${position}: ${timeLeft} detik`;
-        
-        adTimer = setInterval(() => {
-          timeLeft--;
-          adCountdown.textContent = `Iklan ${position}: ${timeLeft} detik`;
-          
-          // Tampilkan tombol skip setelah waktu tertentu
-          if (timeLeft <= adDuration - skipTime) {
-            skipAd.style.display = 'block';
-          }
-          
-          if (timeLeft <= 0) {
-            clearInterval(adTimer);
-            finishAd();
-          }
-        }, 1000);
-        
-        // Tombol skip iklan
-        skipAd.onclick = finishAd;
-      }
-      
-      // Fungsi global untuk finishAd agar dapat diakses dari fallback
-      window.finishAd = function() {
-        clearInterval(adTimer);
-        adPlaying = false;
-        
-        // Sembunyikan pemutar iklan, tampilkan video utama
-        adContainer.style.display = 'none';
-        videoPlayer.style.display = 'block';
-        adCountdown.style.display = 'none';
-        skipAd.style.display = 'none';
-        
-        // Lanjutkan pemutaran video berdasarkan posisi iklan
-        if (adPosition === 'pre-roll') {
-          videoPlayer.play().catch(e => console.log('Autoplay prevented:', e));
-        } else if (adPosition === 'mid-roll') {
-          videoPlayer.play().catch(e => console.log('Autoplay prevented:', e));
-        } else if (adPosition === 'post-roll') {
-          // Reset video setelah post-roll
-          videoPlayer.currentTime = 0;
-          videoPlayer.pause();
-        }
-      };
-      
-      // Fungsi untuk membuat marker iklan
-      function createAdMarkers(duration) {
-        adMarkers.innerHTML = '';
-        
-        // Pre-roll marker (di awal)
-        const preRollMarker = document.createElement('div');
-        preRollMarker.className = 'ad-marker';
-        preRollMarker.style.width = '1%';
-        preRollMarker.title = 'Iklan Pre-roll';
-        adMarkers.appendChild(preRollMarker);
-        
-        // Mid-roll marker (di tengah)
-        const midRollMarker = document.createElement('div');
-        midRollMarker.className = 'ad-marker';
-        midRollMarker.style.width = '1%';
-        midRollMarker.style.marginLeft = '49%';
-        midRollMarker.title = 'Iklan Mid-roll';
-        adMarkers.appendChild(midRollMarker);
-        
-        // Post-roll marker (di akhir)
-        const postRollMarker = document.createElement('div');
-        postRollMarker.className = 'ad-marker';
-        postRollMarker.style.width = '1%';
-        postRollMarker.style.marginLeft = 'auto';
-        postRollMarker.title = 'Iklan Post-roll';
-        adMarkers.appendChild(postRollMarker);
-      }
-      
-      // Event klik pada playlist
-      videos.forEach(video => {
-        video.addEventListener('click', function() {
-          videos.forEach(v => v.classList.remove('playing'));
-          this.classList.add('playing');
-          
-          const videoUrl = this.getAttribute('data-video');
-          currentVideoDuration = parseInt(this.getAttribute('data-duration'));
-          
-          // Load video
-          videoPlayer.innerHTML = '';
-          const source = document.createElement('source');
-          source.src = videoUrl;
-          source.type = 'video/mp4';
-          videoPlayer.appendChild(source);
-          videoPlayer.load();
-          videoTitle.textContent = this.textContent;
-          
-          // Buat marker iklan
-          createAdMarkers(currentVideoDuration);
-          
-          // Reset status iklan
-          midrollTriggered = false;
-          postrollTriggered = false;
-          
-          // Putar iklan pre-roll sebelum video utama
-          playAd('pre-roll');
-        });
-      });
-      
-      // Update progress bar
-      videoPlayer.addEventListener('timeupdate', function() {
-        if (currentVideoDuration > 0) {
-          const percent = (videoPlayer.currentTime / currentVideoDuration) * 100;
-          progressBar.style.width = percent + '%';
-          
-          // Trigger mid-roll ad pada 50% progress
-          if (percent >= 50 && !midrollTriggered && !adPlaying) {
-            midrollTriggered = true;
-            videoPlayer.pause();
-            playAd('mid-roll');
-          }
-        }
-      });
-      
-      // Trigger post-roll ad ketika video selesai
-      videoPlayer.addEventListener('ended', function() {
-        if (!postrollTriggered && !adPlaying) {
-          postrollTriggered = true;
-          playAd('post-roll');
-        }
-      });
-      
-      // Klik progress bar untuk seek
-      progressContainer.addEventListener('click', function(e) {
-        if (currentVideoDuration > 0) {
-          const rect = progressContainer.getBoundingClientRect();
-          const clickX = e.clientX - rect.left;
-          const percent = clickX / rect.width;
-          videoPlayer.currentTime = percent * currentVideoDuration;
-        }
-      });
-    });
-  </script>
+            // Setup iklan pre-roll / mid-roll / post-roll
+            var options = {
+                id: 'my-video',
+                adTagUrl: 'https://s.magsrv.com/splash.php?idzone=5720258'
+            };
+
+            player.ima(options);
+
+            // Error handling jika iklan gagal
+            player.on('adserror', function(event) {
+                console.error('Iklan tidak tersedia atau gagal dimuat.', event);
+                player.play(); // tetap mainkan video utama
+            });
+        };
+    </script>
+
 </body>
 </html>
